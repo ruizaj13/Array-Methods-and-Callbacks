@@ -41,10 +41,10 @@ console.log(getYears(fifaData, getFinals));
 
 /* Task 4: Implement a higher-order function called `getWinners`, that accepts the callback function `getFinals()` and determine the winner (home or away) of each `finals` game. Return the name of all winning countries in an array called `winners` */ 
 
-function getWinners(data , callBack) {
+function getWinners(callBack) {
     let winners = [];
 
-    callBack(data).forEach(item => {
+    callBack.forEach(item => {
         if (item ['Home Team Goals'] > item ['Away Team Goals']){
             winners.push(item['Home Team Name']);
         } else {winners.push(item['Away Team Name']);}
@@ -55,7 +55,7 @@ function getWinners(data , callBack) {
 
 
 
-console.log(getWinners(fifaData, getFinals))
+console.log(getWinners(getFinals(fifaData)))
 
 /* Task 5: Implement a higher-order function called `getWinnersByYear` that accepts the following parameters and returns a set of strings "In {year}, {country} won the world cup!" 
 
@@ -64,21 +64,24 @@ Parameters:
  * callback function getYears
  */
 
-function getWinnersByYear(/* code here */) {
-
+function getWinnersByYear(cbWinners, cbYears) {
+    
+    return cbWinners.map((country, year) =>  `In ${cbYears[year]}, ${country} won the world cup!`)
 };
 
-getWinnersByYear();
+console.log(getWinnersByYear(getWinners(getFinals(fifaData)),getYears(fifaData, getFinals)));
 
 /* Task 6: Write a function called `getAverageGoals` that accepts a parameter `data` and returns the the average number of home team goals and away team goals scored per match (Hint: use .reduce and do this in 2 steps) */
 
-function getAverageGoals(/* code here */) {
+function getAverageGoals(data) {
 
-    /* code here */
+    let homeGoals = data.reduce((accumulator, item) => accumulator+item["Home Team Goals"],0)/data.length;
+    let awayGoals = data.reduce((accumulator, item) => accumulator+item["Away Team Goals"],0)/data.length;
+    return{homeGoals, awayGoals}
 
 };
 
-getAverageGoals();
+console.log(getAverageGoals(fifaData));
 
 /// STRETCH 🥅 //
 
